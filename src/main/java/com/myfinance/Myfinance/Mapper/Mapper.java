@@ -5,11 +5,11 @@ import com.myfinance.Myfinance.dto.ProfileDTO;
 
 public class Mapper {
 
-    public ProfileEntity mapToEntity(ProfileDTO profileDTO) {
+    public static ProfileEntity mapToEntity(ProfileDTO profileDTO) {
         return ProfileEntity.builder()
                 .id(profileDTO.getId())
-                        .fullName(profileDTO.getFullName())
-                        .email(profileDTO.getEmail())
+                            .fullName(profileDTO.getFullName())
+                            .email(profileDTO.getEmail())
                         .password(profileDTO.getPassword())
                         .profileImageUrl(profileDTO.getProfileImageUrl())
                         .createdAt(profileDTO.getCreatedAt())
@@ -17,7 +17,7 @@ public class Mapper {
                 .build();
 
     }
-    public ProfileDTO mapToDTO(ProfileEntity profileEntity) {
+    public static ProfileDTO mapToDTO(ProfileEntity profileEntity) {
         return ProfileDTO.builder()
                 .id(profileEntity.getId())
                 .fullName(profileEntity.getFullName())
