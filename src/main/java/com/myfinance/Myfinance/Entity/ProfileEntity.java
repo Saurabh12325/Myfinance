@@ -1,9 +1,6 @@
 package com.myfinance.Myfinance.Entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,10 +18,13 @@ public class ProfileEntity {
     @Id
     private Long id;
     private String fullName;
+    @Column(unique = true)
     private String email;
     private  String password;
     private String profileImageUrl;
+    @Column(nullable = false)
     private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
     private Boolean isActive;
     private String activationToken;
 
