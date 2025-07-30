@@ -16,12 +16,16 @@ import java.util.UUID;
 public class ProfileService {
     private final ProfileRepository profileRepository;
 
+    private final EmailService emailService;
+
     public ProfileDTO registerProfile(ProfileDTO profileDTO) {
         ProfileEntity newProfile =  Mapper.mapToEntity(profileDTO);
         newProfile.setActivationToken(UUID.randomUUID().toString());
         newProfile = profileRepository.save(newProfile);
         String activatationLink = "http://localhost:8080/api/v1.0/profile/activate?token=" + newProfile.getActivationToken();
         String Subject = "Activate your account";
+        String Body = "Click here to activate your account " + activatationLink;
+        emailService.sendEmail(newProfile.getEmail(), Subject, Body);
         return Mapper.mapToDTO(newProfile);
 
     }
