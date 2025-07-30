@@ -20,6 +20,8 @@ public class ProfileService {
         ProfileEntity newProfile =  Mapper.mapToEntity(profileDTO);
         newProfile.setActivationToken(UUID.randomUUID().toString());
         newProfile = profileRepository.save(newProfile);
+        String activatationLink = "http://localhost:8080/api/v1.0/profile/activate?token=" + newProfile.getActivationToken();
+        String Subject = "Activate your account";
         return Mapper.mapToDTO(newProfile);
 
     }
