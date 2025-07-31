@@ -6,6 +6,7 @@ import com.myfinance.Myfinance.Repository.ProfileRepository;
 import com.myfinance.Myfinance.dto.ProfileDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -15,7 +16,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ProfileService {
     private final ProfileRepository profileRepository;
-
+     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
 
     public ProfileDTO registerProfile(ProfileDTO profileDTO) {
