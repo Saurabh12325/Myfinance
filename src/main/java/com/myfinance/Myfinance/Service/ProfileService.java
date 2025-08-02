@@ -5,7 +5,9 @@ import com.myfinance.Myfinance.Mapper.Mapper;
 import com.myfinance.Myfinance.Repository.ProfileRepository;
 import com.myfinance.Myfinance.dto.ProfileDTO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Profile;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -43,5 +45,26 @@ public class ProfileService {
                 .orElse(false);
     }
 
+    public boolean isAccountActive(String email) {
+        return profileRepository.findByEmail(email)
+                .map(ProfileEntity :: getIsActive)
+                .orElse(false);
+    }
+
+    public  ProfileEntity getCurrentProfile(String email) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return profileRepository
+                .findByEmail(authentication.getName()).orElseThrow(()-> new UsernameNotFoundException("Profile not found with this email" + email));
+    }
+
+    public ProfileDTO getPublicProfile(String email){
+        ProfileEntity currentUser = null;
+        if(email == null) {
+            currentUser = getCurrentProfile(email);
+        } else {
+            currentUser = profileRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Profile not found with this email " + email));
+        }
+        return Mapper.mapToDTO(currentUser);
+    }
 
 }
