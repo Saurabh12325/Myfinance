@@ -41,12 +41,11 @@ public class ProfileController {
         try {
             if (!profileService.isAccountActive(loginDto.getEmail())) {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("message", "Account is not active,Please active your account first."));
-
             }
             Map<String, Object> response = profileService.authenticateAndGenerateToken(loginDto);
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+           return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("message", e.getMessage()));
         }
     }
 
