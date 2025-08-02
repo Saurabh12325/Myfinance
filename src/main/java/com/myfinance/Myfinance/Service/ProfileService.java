@@ -3,15 +3,21 @@ package com.myfinance.Myfinance.Service;
 import com.myfinance.Myfinance.Entity.ProfileEntity;
 import com.myfinance.Myfinance.Mapper.Mapper;
 import com.myfinance.Myfinance.Repository.ProfileRepository;
+import com.myfinance.Myfinance.dto.LoginDto;
 import com.myfinance.Myfinance.dto.ProfileDTO;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
                          
 @Service
@@ -47,7 +53,7 @@ public class ProfileService {
 
     public boolean isAccountActive(String email) {
         return profileRepository.findByEmail(email)
-                .map(ProfileEntity :: getIsActive)
+                .map(ProfileEntity::getIsActive)
                 .orElse(false);
     }
 
@@ -67,4 +73,7 @@ public class ProfileService {
         return Mapper.mapToDTO(currentUser);
     }
 
+    public Map<String, Object> authenticateAndGenerateToken(LoginDto loginDto) {
+
+    }
 }

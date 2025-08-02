@@ -1,13 +1,18 @@
 package com.myfinance.Myfinance.Controller;
 
 import com.myfinance.Myfinance.Service.ProfileService;
-
+import com.myfinance.Myfinance.dto.LoginDto;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import java.util.Map;
 import com.myfinance.Myfinance.dto.ProfileDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/profile")
@@ -31,4 +36,21 @@ public class ProfileController {
             return ResponseEntity.badRequest().body("Invalid activation token.");
         }
     }
+
+    public ResponseEntity<Map<String,Object>> login(@RequestBody LoginDto loginDto) {
+        try {
+            if (!profileService.isAccountActive(loginDto.getEmail())) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("message", "Account is not active,Please active your account first."));
+
+            }
+            Map<String, Object> response = profileService.authenticateAndGenerateToken(loginDto);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+
+
 }
