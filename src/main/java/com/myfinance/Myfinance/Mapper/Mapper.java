@@ -2,8 +2,13 @@ package com.myfinance.Myfinance.Mapper;
 
 import com.myfinance.Myfinance.Entity.ProfileEntity;
 import com.myfinance.Myfinance.dto.ProfileDTO;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
+
 
 public class Mapper {
+
 
     public static ProfileEntity mapToEntity(ProfileDTO profileDTO) {
         return ProfileEntity.builder()

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
-
+                         
 @Service
 @RequiredArgsConstructor
 public class ProfileService {
@@ -21,6 +21,7 @@ public class ProfileService {
 
     public ProfileDTO registerProfile(ProfileDTO profileDTO) {
         ProfileEntity newProfile =  Mapper.mapToEntity(profileDTO);
+        newProfile.setPassword(passwordEncoder.encode(newProfile.getPassword()));
         newProfile.setActivationToken(UUID.randomUUID().toString());
         newProfile = profileRepository.save(newProfile);
         String activatationLink = "http://localhost:8080/api/v1.0/profile/activate?token=" + newProfile.getActivationToken();
