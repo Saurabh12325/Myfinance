@@ -8,6 +8,7 @@ import com.myfinance.Myfinance.dto.ProfileDTO;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -26,6 +27,7 @@ public class ProfileService {
     private final ProfileRepository profileRepository;
      private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
+    private final AuthenticationManager authenticationManager;
 
     public ProfileDTO registerProfile(ProfileDTO profileDTO) {
         ProfileEntity newProfile =  Mapper.mapToEntity(profileDTO);
@@ -74,6 +76,14 @@ public class ProfileService {
     }
 
     public Map<String, Object> authenticateAndGenerateToken(LoginDto loginDto) {
-
+       try{
+           authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword()));
+           return Map.of(
+                   "token", "JWT token",
+                   "user", getPublicProfile(loginDto.getEmail())
+           );
+       } catch (Exception e) {
+           throw new RuntimeException("Invalid email or password");
+       }
     }
 }
