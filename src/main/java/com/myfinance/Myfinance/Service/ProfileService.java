@@ -3,6 +3,7 @@ package com.myfinance.Myfinance.Service;
 import com.myfinance.Myfinance.Entity.ProfileEntity;
 import com.myfinance.Myfinance.Mapper.Mapper;
 import com.myfinance.Myfinance.Repository.ProfileRepository;
+import com.myfinance.Myfinance.Util.JwtUtil;
 import com.myfinance.Myfinance.dto.LoginDto;
 import com.myfinance.Myfinance.dto.ProfileDTO;
 import io.jsonwebtoken.Jwts;
@@ -28,6 +29,7 @@ public class ProfileService {
      private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
     private final AuthenticationManager authenticationManager;
+    private final JwtUtil jwtUtil;
 
     public ProfileDTO registerProfile(ProfileDTO profileDTO) {
         ProfileEntity newProfile =  Mapper.mapToEntity(profileDTO);
@@ -78,8 +80,9 @@ public class ProfileService {
     public Map<String, Object> authenticateAndGenerateToken(LoginDto loginDto) {
        try{
            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword()));
+           String token = jwtUtil.generateToken(loginDto.getEmail());
            return Map.of(
-                   "token", "JWT token",
+                   "token", token,
                    "user", getPublicProfile(loginDto.getEmail())
            );
        } catch (Exception e) {

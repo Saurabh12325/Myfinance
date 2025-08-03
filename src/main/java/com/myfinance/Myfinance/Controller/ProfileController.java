@@ -33,7 +33,7 @@ public class ProfileController {
             return ResponseEntity.badRequest().body("Invalid activation token.");
         }
     }
-
+   @PostMapping("/login")
     public ResponseEntity<Map<String,Object>> login(@RequestBody LoginDto loginDto) {
         try {
             if (!profileService.isAccountActive(loginDto.getEmail())) {
