@@ -1,8 +1,12 @@
 package com.myfinance.Myfinance.Config;
 
+import com.myfinance.Myfinance.Service.UserDetailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.ProviderManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -20,6 +24,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
+    private final UserDetailService userDetailService;
 
     @Bean
     public SecurityFilterChain securityFilter(HttpSecurity http) throws Exception {
@@ -47,4 +52,13 @@ public class SecurityConfig {
        source.registerCorsConfiguration("/**",corsConfiguration);
        return corsConfiguration;
    }
+
+   @Bean
+    public AuthenticationManager authenticationManager(){
+        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+        daoAuthenticationProvider.setUserDetailsService(userDetailService);
+        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+        return new ProviderManager(daoAuthenticationProvider);
+   }
+
 }
