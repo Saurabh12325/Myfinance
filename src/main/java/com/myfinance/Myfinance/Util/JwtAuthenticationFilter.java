@@ -6,10 +6,14 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Collections;
 
 @Component
 @RequiredArgsConstructor
@@ -27,12 +31,19 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter
       String token = header.substring(7);
       if(jwtUtil.validateToken(token)) {
           String email = jwtUtil.extractEmail(token);
-          if(profileRepository.findByEmail(email).isPresent()) {
-              filterChain.doFilter(request, response);
-              return;
+          if (profileRepository.findByEmail(email).isPresent()
+                  && SecurityContextHolder.getContext().getAuthentication() == null) {
+
+              UsernamePasswordAuthenticationToken authToken =
+                      new UsernamePasswordAuthenticationToken(email, null, Collections.emptyList());
+
+              authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+
+              SecurityContextHolder.getContext().setAuthentication(authToken);
           }
-          response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-          response.getWriter().write("Invalid or expired token");
       }
+
+        filterChain.doFilter(request, response);
     }
 }
+
