@@ -1,10 +1,10 @@
 package com.myfinance.Myfinance.Mapper;
 
+import com.myfinance.Myfinance.Entity.CategoryEntity;
 import com.myfinance.Myfinance.Entity.ProfileEntity;
+import com.myfinance.Myfinance.dto.CategoryDto;
 import com.myfinance.Myfinance.dto.ProfileDTO;
-import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
+
 
 
 public class Mapper {
@@ -30,6 +30,27 @@ public class Mapper {
                 .profileImageUrl(profileEntity.getProfileImageUrl())
                 .createdAt(profileEntity.getCreatedAt())
                 .updatedAt(profileEntity.getUpdatedAt())
+                .build();
+    }
+
+    public static CategoryEntity mapToCategoryEntity(CategoryDto categoryDto,ProfileEntity profile) {
+        return CategoryEntity.builder()
+                .name(categoryDto.getName())
+                .type(categoryDto.getType())
+                .icon(categoryDto.getIcon())
+                .profile(profile)
+                .build();
+    }
+
+    private static  CategoryDto mapToCategoryDto(CategoryEntity categoryEntity) {
+        return CategoryDto.builder()
+                .id(categoryEntity.getId())
+                .name(categoryEntity.getName())
+                .type(categoryEntity.getType())
+                .icon(categoryEntity.getIcon())
+                .profileId(categoryEntity.getProfile() != null ? categoryEntity.getProfile().getId() : null)
+                .createdAt(categoryEntity.getCreatedAt())
+                .updatedAt(categoryEntity.getUpdatedAt())
                 .build();
     }
 }
