@@ -33,7 +33,7 @@ public class Mapper {
                 .build();
     }
 
-    public static CategoryEntity mapToCategoryEntity(CategoryDto categoryDto,ProfileEntity profile) {
+    private static CategoryEntity mapToCategoryEntity(CategoryDto categoryDto,ProfileEntity profile) {
         return CategoryEntity.builder()
                 .name(categoryDto.getName())
                 .type(categoryDto.getType())
