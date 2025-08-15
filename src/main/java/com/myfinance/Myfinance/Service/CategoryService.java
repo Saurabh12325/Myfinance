@@ -22,6 +22,7 @@ public class CategoryService {
        throw  new ResponseStatusException(HttpStatus.BAD_REQUEST,"Category with this name already exists");
         }
         CategoryEntity categoryEntity = Mapper.mapToCategoryEntity(categoryDto,profile);
-        CategoryEntity savedCategory = categoryRepository.save(categoryEntity);
+        categoryEntity = categoryRepository.save(categoryEntity);
+        return Mapper.mapToCategoryDto(categoryEntity);
     }
 }
