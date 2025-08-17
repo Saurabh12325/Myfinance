@@ -36,7 +36,19 @@ public class CategoryService {
     public List<CategoryDto> getCategoriesForCurrentUser() {
         ProfileEntity profile = profileService.getCurrentProfile();
         List<CategoryEntity> categories = categoryRepository.findByProfileId(profile.getId());
-        return categories.stream().map(Mapper::mapToCategoryDto).toList();
+        return categories
+                .stream()
+                .map(Mapper::mapToCategoryDto)
+                .toList();
+    }
+
+    public List<CategoryDto> getCategoriesTypeForCurrentUser() {
+        ProfileEntity profile = profileService.getCurrentProfile();
+        List<CategoryEntity> categories = categoryRepository.findByTypeAndProfileId(type,profile.getId());
+        return categories
+                .stream()
+                .map(Mapper::mapToCategoryDto)
+                .toList();
     }
 
 
