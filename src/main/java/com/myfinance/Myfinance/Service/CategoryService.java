@@ -19,10 +19,15 @@ public class CategoryService {
     public CategoryDto saveCategory(CategoryDto categoryDto) {
         ProfileEntity profile = profileService.getCurrentProfile();
         if(categoryRepository.existsByNameAndProfileId(categoryDto.getName(),profile.getId())) {
-       throw  new ResponseStatusException(HttpStatus.BAD_REQUEST,"Category with this name already exists");
+       throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Category with this name already exists");
         }
         CategoryEntity categoryEntity = Mapper.mapToCategoryEntity(categoryDto,profile);
         categoryEntity = categoryRepository.save(categoryEntity);
         return Mapper.mapToCategoryDto(categoryEntity);
     }
+
+    //get categories for the current user
+
+
+
 }
