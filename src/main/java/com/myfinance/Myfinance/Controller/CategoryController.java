@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/category")
@@ -14,11 +16,15 @@ public class CategoryController {
 
     private final CategoryService categoryService;
 
-     @PostMapping
+     @PostMapping("/saveCategory")
     public ResponseEntity<CategoryDto> saveCategory(@RequestBody CategoryDto categoryDto) {
         CategoryDto savedCategory = categoryService.saveCategory(categoryDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedCategory);
     }
 
-    @GetMapping
+    @GetMapping("/fetchAll")
+    public ResponseEntity<List<CategoryDto>> getCategoriesForCurrentUser() {
+         List<CategoryDto> categories = categoryService.getCategoriesForCurrentUser();
+         return ResponseEntity.ok(categories);
+    }
 }
