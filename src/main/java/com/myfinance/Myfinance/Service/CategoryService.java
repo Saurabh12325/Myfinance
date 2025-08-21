@@ -50,6 +50,16 @@ public class CategoryService {
                 .toList();
     }
 
+    public CategoryDto updateCategory(Long CategoryId,CategoryDto categoryDto) {
+        ProfileEntity profile = profileService.getCurrentProfile();
+        CategoryEntity categoryEntity = categoryRepository.findByIdAndProfileId(CategoryId,profile.getId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST,"Category not found"));
+        categoryEntity.setName(categoryDto.getName());
+        categoryEntity.setIcon(categoryDto.getIcon());
+        categoryEntity = categoryRepository.save(categoryEntity);
+        return Mapper.mapToCategoryDto(categoryEntity);
+    }
+
+
 
 
 
