@@ -12,7 +12,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
 import static java.util.stream.Collectors.toList;
 
 @Service
@@ -42,14 +41,15 @@ public class CategoryService {
                 .toList();
     }
 
-    public List<CategoryDto> getCategoriesTypeForCurrentUser() {
+    public List<CategoryDto> getCategoriesTypeandForCurrentUser(String type) {
         ProfileEntity profile = profileService.getCurrentProfile();
-        List<CategoryEntity> categories = categoryRepository.findByTypeAndProfileId(type,profile.getId());
+        List<CategoryEntity> categories = categoryRepository.findByTypeAndProfileId(type, profile.getId());
         return categories
                 .stream()
                 .map(Mapper::mapToCategoryDto)
                 .toList();
     }
-//nfn
+
+
 
 }
