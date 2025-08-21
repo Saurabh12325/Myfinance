@@ -54,6 +54,7 @@ public class CategoryService {
         ProfileEntity profile = profileService.getCurrentProfile();
         CategoryEntity categoryEntity = categoryRepository.findByIdAndProfileId(CategoryId,profile.getId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST,"Category not found"));
         categoryEntity.setName(categoryDto.getName());
+        categoryEntity.setType(categoryDto.getType());
         categoryEntity.setIcon(categoryDto.getIcon());
         categoryEntity = categoryRepository.save(categoryEntity);
         return Mapper.mapToCategoryDto(categoryEntity);
