@@ -16,8 +16,8 @@ public class ExpenseDto {
     private Long id;
     private String name;
     private String icon;
-    private String CategoryName;
-    private String CategoryId;
+    private String categoryName;
+    private Long categoryId;
     private LocalDate date;
     private BigDecimal amount;
     private LocalDateTime createdAt;

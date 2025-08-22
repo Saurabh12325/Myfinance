@@ -1,8 +1,10 @@
 package com.myfinance.Myfinance.Mapper;
 
 import com.myfinance.Myfinance.Entity.CategoryEntity;
+import com.myfinance.Myfinance.Entity.ExpenseEntity;
 import com.myfinance.Myfinance.Entity.ProfileEntity;
 import com.myfinance.Myfinance.dto.CategoryDto;
+import com.myfinance.Myfinance.dto.ExpenseDto;
 import com.myfinance.Myfinance.dto.ProfileDTO;
 
 
@@ -51,6 +53,31 @@ public class Mapper {
                 .profileId(categoryEntity.getProfile() != null ? categoryEntity.getProfile().getId() : null)
                 .createdAt(categoryEntity.getCreatedAt())
                 .updatedAt(categoryEntity.getUpdatedAt())
+                .build();
+    }
+
+    public static ExpenseEntity mapToExpenseEntity(ExpenseDto expenseDto,ProfileEntity profile,CategoryEntity category) {
+        return ExpenseEntity.builder()
+                .name(expenseDto.getName())
+                .icon(expenseDto.getIcon())
+                .date(expenseDto.getDate())
+                .amount(expenseDto.getAmount())
+                .profile(profile)
+                .category(category)
+                .build();
+
+    }
+    public static ExpenseDto mapToExpenseDto(ExpenseEntity expenseEntity) {
+        return ExpenseDto.builder()
+                .id(expenseEntity.getId())
+                .name(expenseEntity.getName())
+                .icon(expenseEntity.getIcon())
+                .date(expenseEntity.getDate())
+                .amount(expenseEntity.getAmount())
+                .categoryId(expenseEntity.getCategory() != null ? expenseEntity.getCategory().getId() : null)
+                .categoryName(expenseEntity.getCategory() != null ? expenseEntity.getCategory().getName() : null)
+                .createdAt(expenseEntity.getCreatedAt())
+                .updatedAt(expenseEntity.getUpdatedAt())
                 .build();
     }
 }
