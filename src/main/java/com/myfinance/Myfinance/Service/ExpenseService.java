@@ -11,6 +11,9 @@ import com.myfinance.Myfinance.dto.IncomeDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ExpenseService {
@@ -25,6 +28,16 @@ public class ExpenseService {
         ExpenseEntity newExpense = Mapper.mapToExpenseEntity(dto,profile,category);
         newExpense = expenseRepository.save(newExpense) ;
         return Mapper.mapToExpenseDto(newExpense);
+    }
+
+    public List<ExpenseDto> getCurrentMonthExpensesForCurrentUser(){
+        ProfileEntity profile = profileService.getCurrentProfile();
+        LocalDate now = LocalDate.now();
+        LocalDate startDate = now.withDayOfMonth(1);
+        LocalDate endDate = now.withDayOfMonth(now.lengthOfMonth());
+        List<ExpenseEntity> list = expenseRepository.findByProfileIdAndDateBetween(profile.getId(), startDate, endDate);
+        return list.stream().map(Mapper::mapToExpenseDto).toList();
+
     }
 
 }

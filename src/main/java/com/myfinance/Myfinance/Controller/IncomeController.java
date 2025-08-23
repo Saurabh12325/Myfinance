@@ -4,7 +4,6 @@ import com.myfinance.Myfinance.Service.IncomeService;
 import com.myfinance.Myfinance.dto.ExpenseDto;
 import com.myfinance.Myfinance.dto.IncomeDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.SpringVersion;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
