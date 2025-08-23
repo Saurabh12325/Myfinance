@@ -18,7 +18,7 @@ public class IncomeService {
     private final CategoryRepository categoryRepository;
     private final IncomeRepository incomeRepository;
 
-    public IncomeDto addExpense(IncomeDto dto){
+    public IncomeDto addIncome(IncomeDto dto){
         ProfileEntity profile = profileService.getCurrentProfile();
         CategoryEntity category = categoryRepository.findById(dto.getCategoryId()).orElseThrow(() -> new RuntimeException("Category not found"));
         IncomeEntity newExpense = Mapper.mapToIncomeEntity(dto,profile,category);

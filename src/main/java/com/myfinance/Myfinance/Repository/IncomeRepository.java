@@ -17,7 +17,7 @@ public interface IncomeRepository extends JpaRepository<IncomeEntity, Long> {
 
     // Select * from expense where profile_id = ? order by date desc limit 5
     List<IncomeEntity> findTop5ByProfileIdOrderByDateDesc(Long profileId);
-    @Query("SELECT SUM(e.amount) from ExpenseEntity e WHERE e.profile.id = :profileId")
+    @Query("SELECT SUM(i.amount) from ExpenseEntity i WHERE i.profile.id = :profileId")
     BigDecimal findTotalExpenseByProfileId(@Param("profileId") Long profileId);
     List<IncomeEntity> findByProfileIdAndDateBetweenAndNameContainingIgnoreCase(Long profileId, LocalDate startDate, LocalDate endDate, String keyword, Sort sort);
 }
