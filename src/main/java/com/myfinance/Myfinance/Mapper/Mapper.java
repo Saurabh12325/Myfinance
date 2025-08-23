@@ -2,9 +2,11 @@ package com.myfinance.Myfinance.Mapper;
 
 import com.myfinance.Myfinance.Entity.CategoryEntity;
 import com.myfinance.Myfinance.Entity.ExpenseEntity;
+import com.myfinance.Myfinance.Entity.IncomeEntity;
 import com.myfinance.Myfinance.Entity.ProfileEntity;
 import com.myfinance.Myfinance.dto.CategoryDto;
 import com.myfinance.Myfinance.dto.ExpenseDto;
+import com.myfinance.Myfinance.dto.IncomeDto;
 import com.myfinance.Myfinance.dto.ProfileDTO;
 
 
@@ -74,10 +76,35 @@ public class Mapper {
                 .icon(expenseEntity.getIcon())
                 .date(expenseEntity.getDate())
                 .amount(expenseEntity.getAmount())
-                .categoryId(expenseEntity.getCategory() != null ? expenseEntity.getCategory().getId() : null)
+                .categoryId(expenseEntity.getCategory() != null ? expenseEntity.getCategory().getId() : null)  
                 .categoryName(expenseEntity.getCategory() != null ? expenseEntity.getCategory().getName() : null)
                 .createdAt(expenseEntity.getCreatedAt())
                 .updatedAt(expenseEntity.getUpdatedAt())
+                .build();
+    }
+
+    public static IncomeEntity mapToExpenseEntity(IncomeDto incomeDto, ProfileEntity profile, CategoryEntity category) {
+        return IncomeEntity.builder()
+                .name(incomeDto.getName())
+                .icon(incomeDto.getIcon())
+                .date(incomeDto.getDate())
+                .amount(incomeDto.getAmount())
+                .profile(profile)
+                .category(category)
+                .build();
+
+    }
+    public static  IncomeDto mapToExpenseDto(IncomeEntity incomeEntity) {
+        return IncomeDto.builder()
+                .id(incomeEntity.getId())
+                .name(incomeEntity.getName())
+                .icon(incomeEntity.getIcon())
+                .date(incomeEntity.getDate())
+                .amount(incomeEntity.getAmount())
+                .categoryId(incomeEntity.getCategory() != null ? incomeEntity.getCategory().getId() : null)
+                .categoryName(incomeEntity.getCategory() != null ? incomeEntity.getCategory().getName() : null)
+                .createdAt(incomeEntity.getCreatedAt())
+                .updatedAt(incomeEntity.getUpdatedAt())
                 .build();
     }
 }
