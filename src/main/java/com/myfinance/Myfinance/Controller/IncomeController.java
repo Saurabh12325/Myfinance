@@ -6,10 +6,9 @@ import com.myfinance.Myfinance.dto.IncomeDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,5 +21,10 @@ public class IncomeController {
     public ResponseEntity<IncomeDto> addExpense(@RequestBody IncomeDto dto){
         IncomeDto savedExpense = incomeService.addIncome(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedExpense);
+    }
+    @GetMapping
+    public ResponseEntity<List<IncomeDto>> getCurrentMonthIncomeForCurrentUser(){
+        List<IncomeDto> expenses = incomeService.getCurrentMonthIncomeForCurrentUser();
+        return ResponseEntity.ok(expenses);
     }
 }

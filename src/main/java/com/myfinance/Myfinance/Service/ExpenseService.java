@@ -9,6 +9,7 @@ import com.myfinance.Myfinance.Repository.ExpenseRepository;
 import com.myfinance.Myfinance.dto.ExpenseDto;
 import com.myfinance.Myfinance.dto.IncomeDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -38,6 +39,15 @@ public class ExpenseService {
         List<ExpenseEntity> list = expenseRepository.findByProfileIdAndDateBetween(profile.getId(), startDate, endDate);
         return list.stream().map(Mapper::mapToExpenseDto).toList();
 
+    }
+    public void deleteExpense(Long expenseId){
+        ProfileEntity profile = profileService.getCurrentProfile();
+        ExpenseEntity entity = expenseRepository.findById(expenseId).orElseThrow(() ->  new RuntimeException("Expense not found"));
+        if(!entity.getProfile().getId().equals(profile.getId())){
+            throw new RuntimeException("You are not authorized to delete this expense");
+
+        }
+        expenseRepository.delete(entity);
     }
 
 }
