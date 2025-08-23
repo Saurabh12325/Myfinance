@@ -1,0 +1,17 @@
+package com.myfinance.Myfinance.dto;
+
+import org.springframework.cglib.core.Local;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+public class RecentTransactionDto {
+    private Long id;
+    private String name;
+    private String type;
+    private LocalDate date;
+    private BigDecimal amount;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+}
