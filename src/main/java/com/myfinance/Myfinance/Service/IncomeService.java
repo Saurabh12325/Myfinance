@@ -36,7 +36,7 @@ public class IncomeService {
         LocalDate startDate = now.withDayOfMonth(1);
         LocalDate endDate = now.withDayOfMonth(now.lengthOfMonth());
         List<IncomeEntity> list = incomeRepository.findByProfileIdAndDateBetween(profile.getId(), startDate, endDate);
-        return list.stream().map(Mapper::mapToExpenseDto).toList();
+        return list.stream().map(Mapper::mapToIncomeDto).toList();
 
     }
 }
