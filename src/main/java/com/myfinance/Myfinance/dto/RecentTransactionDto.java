@@ -15,8 +15,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class RecentTransactionDto {
     private Long id;
+    private Long profileId;
     private String name;
     private String type;
+    private String icon;
     private LocalDate date;
     private BigDecimal amount;
     private LocalDateTime createdAt;

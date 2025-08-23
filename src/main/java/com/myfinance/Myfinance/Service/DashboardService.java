@@ -29,6 +29,31 @@ public class DashboardService {
         List<ExpenseDto> latestExpense = expenseService.getLatest5ExpensesForCurrentUser();
         concat(latestIncome.stream().map(income->
                 RecentTransactionDto.builder()
+                        .id(income.getId())
+                        .profileId(profile.getId())
+                        .name(income.getName())
+                        .icon(income.getIcon())
+                        .date(income.getDate())
+                        .createdAt(income.getCreatedAt())
+                        .updatedAt(income.getUpdatedAt())
+                        .amount(income.getAmount())
+                        .type("income")
+                        .build()),
+                     latestExpense.stream().map(expense->
+                             RecentTransactionDto.builder()
+                             .id(expense.getId())
+                             .profileId(profile.getId())
+                             .name(expense.getName())
+                             .icon(expense.getIcon())
+                             .date(expense.getDate())
+                             .createdAt(expense.getCreatedAt())
+                             .updatedAt(expense.getUpdatedAt())
+                             .amount(expense.getAmount())
+                             .type("expense")
+                             .build())
+                )
+
+
 
 
         ))
