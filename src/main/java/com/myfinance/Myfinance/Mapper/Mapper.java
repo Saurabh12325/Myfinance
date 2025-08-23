@@ -83,7 +83,7 @@ public class Mapper {
                 .build();
     }
 
-    public static IncomeEntity mapToExpenseEntity(IncomeDto incomeDto, ProfileEntity profile, CategoryEntity category) {
+    public static IncomeEntity mapToIncomeEntity(IncomeDto incomeDto, ProfileEntity profile, CategoryEntity category) {
         return IncomeEntity.builder()
                 .name(incomeDto.getName())
                 .icon(incomeDto.getIcon())
@@ -94,7 +94,7 @@ public class Mapper {
                 .build();
 
     }
-    public static  IncomeDto mapToExpenseDto(IncomeEntity incomeEntity) {
+    public static  IncomeDto mapToIncomeDto(IncomeEntity incomeEntity) {
         return IncomeDto.builder()
                 .id(incomeEntity.getId())
                 .name(incomeEntity.getName())
