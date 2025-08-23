@@ -13,6 +13,7 @@ import com.myfinance.Myfinance.dto.IncomeDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -47,5 +48,17 @@ public class IncomeService {
 
         }
         incomeRepository.delete(entity);
+    }
+    public List<IncomeDto> getLatest5ExpensesForCurrentUser(){
+        ProfileEntity profile = profileService.getCurrentProfile();
+        List<IncomeEntity> list = incomeRepository.findTop5ByProfileIdOrderByDateDesc(profile.getId());
+        return list.stream().map(Mapper::mapToIncomeDto).toList();
+    }
+
+    //get total expense for the current user
+    public BigDecimal getTotalExpenseForCurrentUser(){
+        ProfileEntity profile = profileService.getCurrentProfile();
+        BigDecimal total = incomeRepository.findTotalIncomeByProfileId(profile.getId());
+        return total !=null ? total : BigDecimal.ZERO;
     }
 }

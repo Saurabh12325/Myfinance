@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -50,4 +51,16 @@ public class ExpenseService {
         expenseRepository.delete(entity);
     }
 
+    public List<ExpenseDto> getLatest5ExpensesForCurrentUser(){
+        ProfileEntity profile = profileService.getCurrentProfile();
+        List<ExpenseEntity> list = expenseRepository.findTop5ByProfileIdOrderByDateDesc(profile.getId());
+        return list.stream().map(Mapper::mapToExpenseDto).toList();
+    }
+
+    //get total expense for the current user
+    public BigDecimal getTotalExpenseForCurrentUser(){
+        ProfileEntity profile = profileService.getCurrentProfile();
+         BigDecimal total = expenseRepository.findTotalExpenseByProfileId(profile.getId());
+         return total !=null ? total : BigDecimal.ZERO;
+    }
 }
