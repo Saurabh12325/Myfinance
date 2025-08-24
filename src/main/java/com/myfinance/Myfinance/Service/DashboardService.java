@@ -22,9 +22,9 @@ public class DashboardService {
     private final ExpenseService expenseService;
     private final ProfileService profileService;
 
-    public Map<String,Object> getDashboardData(){
+    public Map<String,Object> getDashboardData() {
         ProfileEntity profile = profileService.getCurrentProfile();
-        Map<String,Object> returnValue = new LinkedHashMap<>();
+        Map<String, Object> returnValue = new LinkedHashMap<>();
         List<IncomeDto> latestIncome = incomeService.getLatest5ExpensesForCurrentUser();
         List<ExpenseDto> latestExpense = expenseService.getLatest5ExpensesForCurrentUser();
         List<RecentTransactionDto> recentTransactionDto =
@@ -56,8 +56,20 @@ public class DashboardService {
                                                 .build()
                                 )
                         )
-                        .sorted((a, b) -> b.getDate().compareTo(a.getDate()))
-                        .collect(Collectors.toList());
+                        .sorted((a, b) -> {
+                            int cmp = b.getDate().compareTo(a.getDate());
+                            if (cmp == 0 && a.getCreatedAt() != null && b.getCreatedAt() != null) {
+                                return b.getCreatedAt().compareTo(a.getCreatedAt());
+                            }
+                            return cmp;
+                        }).toList();
+        returnValue.put("totalBalance" , incomeService.getTotalIncomeForCurrentUser().subtract(expenseService.getTotalExpenseForCurrentUser()));
+        returnValue.put("totalExpense",expenseService.getTotalExpenseForCurrentUser());
+        returnValue.put(("recent5Expenses"), latestExpense);
+        returnValue.put(("recent5Income"), latestIncome);
+        returnValue.put("recentTransaction" , recentTransactionDto);
+        return returnValue;
+
 
 
 
