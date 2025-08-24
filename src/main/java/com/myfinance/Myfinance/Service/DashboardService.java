@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 @Service
@@ -25,32 +27,37 @@ public class DashboardService {
         Map<String,Object> returnValue = new LinkedHashMap<>();
         List<IncomeDto> latestIncome = incomeService.getLatest5ExpensesForCurrentUser();
         List<ExpenseDto> latestExpense = expenseService.getLatest5ExpensesForCurrentUser();
-       List<RecentTransactionDto> recentTransactionDto = concat(latestIncome.stream().map(income->
-                RecentTransactionDto.builder()
-                        .id(income.getId())
-                        .profileId(profile.getId())
-                        .name(income.getName())
-                        .icon(income.getIcon())
-                        .date(income.getDate())
-                        .createdAt(income.getCreatedAt())
-                        .updatedAt(income.getUpdatedAt())
-                        .amount(income.getAmount())
-                        .type("income")
-                        .build()),
-                     latestExpense.stream().map(expense->
-                             RecentTransactionDto.builder()
-                             .id(expense.getId())
-                             .profileId(profile.getId())
-                             .name(expense.getName())
-                             .icon(expense.getIcon())
-                             .date(expense.getDate())
-                             .createdAt(expense.getCreatedAt())
-                             .updatedAt(expense.getUpdatedAt())
-                             .amount(expense.getAmount())
-                             .type("expense")
-                             .build())
-                );
-
+        List<RecentTransactionDto> recentTransactionDto =
+                Stream.concat(
+                                latestIncome.stream().map(income ->
+                                        RecentTransactionDto.builder()
+                                                .id(income.getId())
+                                                .profileId(profile.getId())
+                                                .name(income.getName())
+                                                .icon(income.getIcon())
+                                                .date(income.getDate())
+                                                .createdAt(income.getCreatedAt())
+                                                .updatedAt(income.getUpdatedAt())
+                                                .amount(income.getAmount())
+                                                .type("income")
+                                                .build()
+                                ),
+                                latestExpense.stream().map(expense ->
+                                        RecentTransactionDto.builder()
+                                                .id(expense.getId())
+                                                .profileId(profile.getId())
+                                                .name(expense.getName())
+                                                .icon(expense.getIcon())
+                                                .date(expense.getDate())
+                                                .createdAt(expense.getCreatedAt())
+                                                .updatedAt(expense.getUpdatedAt())
+                                                .amount(expense.getAmount())
+                                                .type("expense")
+                                                .build()
+                                )
+                        )
+                        .sorted((a, b) -> b.getDate().compareTo(a.getDate()))
+                        .collect(Collectors.toList());
 
 
 
