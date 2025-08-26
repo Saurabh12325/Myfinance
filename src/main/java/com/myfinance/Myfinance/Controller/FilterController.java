@@ -18,7 +18,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/filter")
 @RequiredArgsConstructor
 public class FilterController {
     private final ExpenseService expenseService;
