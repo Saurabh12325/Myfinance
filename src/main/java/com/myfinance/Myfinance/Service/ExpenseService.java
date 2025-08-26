@@ -72,4 +72,11 @@ public class ExpenseService {
         return  list.stream()
                 .map(Mapper::mapToExpenseDto).toList();
     }
+    public List<ExpenseDto> getExpenseForUserDate(Long profileId , LocalDate date){
+        List<ExpenseEntity> list = expenseRepository.findByProfileIdAndDate(profileId, date);
+        return list.stream().map(Mapper::mapToExpenseDto).toList();
+    }
+
+
+
 }
