@@ -64,10 +64,10 @@ public class IncomeService {
         return total !=null ? total : BigDecimal.ZERO;
     }
     //filter
-    public List<ExpenseDto>  filterExpenses(LocalDate startDate, LocalDate endDate, String keyword, Sort sort){
+    public List<IncomeDto>  filterExpenses(LocalDate startDate, LocalDate endDate, String keyword, Sort sort){
         ProfileEntity profile = profileService.getCurrentProfile();
-        List<ExpenseEntity> list = expenseRepository.findByProfileIdAndDateBetweenAndNameContainingIgnoreCase(profile.getId(), startDate, endDate, keyword, sort);
+        List<IncomeEntity> list = incomeRepository.findByProfileIdAndDateBetweenAndNameContainingIgnoreCase(profile.getId(), startDate, endDate, keyword, sort);
         return  list.stream()
-                .map(Mapper::mapToExpenseDto).toList();
+                .map(Mapper::mapToIncomeDto).toList();
     }
 }
