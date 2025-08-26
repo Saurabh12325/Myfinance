@@ -10,6 +10,7 @@ import com.myfinance.Myfinance.dto.ExpenseDto;
 import com.myfinance.Myfinance.dto.IncomeDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -62,5 +63,12 @@ public class ExpenseService {
         ProfileEntity profile = profileService.getCurrentProfile();
          BigDecimal total = expenseRepository.findTotalExpenseByProfileId(profile.getId());
          return total !=null ? total : BigDecimal.ZERO;
+    }
+
+    //filter
+    public List<ExpenseDto>  filterExpenses(LocalDate startDate, LocalDate endDate, String keyword, Sort sort){
+        ProfileEntity profile = profileService.getCurrentProfile();
+        List<ExpenseEntity> list = expenseRepository.findByProfileIdAndDateBetweenAndNameContainingIgnoreCase(profile.getId(), startDate, endDate, keyword, sort);
+
     }
 }
