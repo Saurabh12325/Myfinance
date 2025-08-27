@@ -9,6 +9,7 @@ import com.myfinance.Myfinance.dto.ProfileDTO;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -32,12 +33,15 @@ public class ProfileService {
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
 
+    @Value("${app.activation.url}")
+    private String activationUrl;
+
     public ProfileDTO registerProfile(ProfileDTO profileDTO) {
         ProfileEntity newProfile =  Mapper.mapToEntity(profileDTO);
         newProfile.setPassword(passwordEncoder.encode(newProfile.getPassword()));
         newProfile.setActivationToken(UUID.randomUUID().toString());
         newProfile = profileRepository.save(newProfile);
-        String activatationLink = "http://localhost:8080/api/v1.0/profile/activate?token=" + newProfile.getActivationToken();
+        String activatationLink = activationUrl+"/api/v1.0/profile/activate?token=" + newProfile.getActivationToken();
         String Subject = "Activate your account";
         String Body = "Click here to activate your account " + activatationLink;
         emailService.sendEmail(newProfile.getEmail(), Subject, Body);
