@@ -47,17 +47,18 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
        return new BCryptPasswordEncoder();
    }
-   @Bean
-    public CorsConfiguration corsConfiguration() {
+    @Bean
+    public UrlBasedCorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
-       corsConfiguration.setAllowedOriginPatterns(List.of("*"));
-       corsConfiguration.setAllowedMethods(List.of("GET","POST","PUT","DELETE"));
-       corsConfiguration.setAllowedHeaders(List.of("Authorization","Content-Type","Accept"));
-       corsConfiguration.setAllowCredentials(true);
-       UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-       source.registerCorsConfiguration("/**",corsConfiguration);
-       return corsConfiguration;
-   }
+        corsConfiguration.setAllowedOriginPatterns(List.of("*"));
+        corsConfiguration.setAllowedMethods(List.of("GET","POST","PUT","DELETE","OPTIONS"));
+        corsConfiguration.setAllowedHeaders(List.of("*"));
+        corsConfiguration.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", corsConfiguration);
+        return source;
+    }
 
    @Bean
     public AuthenticationManager authenticationManager(){
