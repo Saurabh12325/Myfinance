@@ -28,29 +28,28 @@ public class SecurityConfig {
 
     private final UserDetailService userDetailService;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
-    private final UserDetailService userDetailsService;
 
     @Bean
     public SecurityFilterChain securityFilter(HttpSecurity http) throws Exception {
-        http.cors(Customizer.withDefaults())
-        .csrf(AbstractHttpConfigurer::disable)
+        http
+                .csrf(AbstractHttpConfigurer::disable)
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth ->
-                        auth.requestMatchers("/status","/profile/register","/profile/activate","/profile/login").permitAll()
-                                .anyRequest().authenticated())
-                .userDetailsService(userDetailsService) // sirf login ke time use hoga
+                        auth.requestMatchers("/status","/profile/register","/profile/activate","/profile/login")
+                                .permitAll()
+                                .anyRequest()
+                                .authenticated()
+                )
+                .userDetailsService(userDetailService)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         return http.build();
-
     }
-   @Bean
-    public PasswordEncoder passwordEncoder() {
-       return new BCryptPasswordEncoder();
-   }
+
     @Bean
     public UrlBasedCorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.setAllowedOriginPatterns(List.of("*"));
+        corsConfiguration.setAllowedOrigins(List.of("http://localhost:5173"));
         corsConfiguration.setAllowedMethods(List.of("GET","POST","PUT","DELETE","OPTIONS"));
         corsConfiguration.setAllowedHeaders(List.of("*"));
         corsConfiguration.setAllowCredentials(true);
@@ -60,6 +59,11 @@ public class SecurityConfig {
         return source;
     }
 
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
    @Bean
     public AuthenticationManager authenticationManager(){
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
