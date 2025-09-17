@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
+
 public class FilterController {
     private final ExpenseService expenseService;
     private final IncomeService incomeService;

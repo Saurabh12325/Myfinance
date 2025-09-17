@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/income")
-@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
+
 public class IncomeController {
 
     private final IncomeService incomeService;
