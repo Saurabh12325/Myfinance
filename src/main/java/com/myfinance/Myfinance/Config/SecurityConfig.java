@@ -33,7 +33,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilter(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
-                .cors(Customizer.withDefaults())
+                .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers("/status","/profile/register","/profile/activate","/profile/login")
                                 .permitAll()
