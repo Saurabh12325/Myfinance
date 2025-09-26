@@ -2,6 +2,7 @@ C:\Myfinance\Myfinance\src\main\java\com\myfinance\Myfinance\Mapper\Mapper.java
 C:\Myfinance\Myfinance\src\main\java\com\myfinance\Myfinance\Controller\ExpenseController.java
 C:\Myfinance\Myfinance\src\main\java\com\myfinance\Myfinance\Service\IncomeService.java
 C:\Myfinance\Myfinance\src\main\java\com\myfinance\Myfinance\Entity\CategoryEntity.java
+C:\Myfinance\Myfinance\src\main\java\com\myfinance\Myfinance\Config\GlobalCorsConfig.java
 C:\Myfinance\Myfinance\src\main\java\com\myfinance\Myfinance\Repository\ProfileRepository.java
 C:\Myfinance\Myfinance\src\main\java\com\myfinance\Myfinance\dto\CategoryDto.java
 C:\Myfinance\Myfinance\src\main\java\com\myfinance\Myfinance\Controller\IncomeController.java

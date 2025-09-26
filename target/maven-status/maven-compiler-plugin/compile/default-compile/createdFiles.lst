@@ -13,6 +13,7 @@ com\myfinance\Myfinance\dto\FilterDto.class
 com\myfinance\Myfinance\Entity\CategoryEntity.class
 com\myfinance\Myfinance\Controller\CategoryController.class
 com\myfinance\Myfinance\Util\JwtAuthenticationFilter.class
+com\myfinance\Myfinance\Config\GlobalCorsConfig.class
 com\myfinance\Myfinance\Service\ExpenseService.class
 com\myfinance\Myfinance\Repository\ProfileRepository.class
 com\myfinance\Myfinance\dto\LoginDto$LoginDtoBuilder.class
