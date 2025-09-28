@@ -43,8 +43,10 @@ public class ProfileService {
         newProfile = profileRepository.save(newProfile);
         String activatationLink = activationUrl+"/api/v1.0/profile/activate?token=" + newProfile.getActivationToken();
         String Subject = "Activate your account";
-        String Body = "Click here to activate your account " + activatationLink;
-        emailService.sendEmail(newProfile.getEmail(), Subject, Body);
+//        String Body = "Click here to activate your account " + activatationLink;
+        String body = "<h3>Click below to activate your account:</h3>"
+                + "<a href='" + activatationLink + "'>Activate Account</a>";
+        emailService.sendEmail(newProfile.getEmail(), Subject, body);
         return Mapper.mapToDTO(newProfile);
 
     }
