@@ -47,7 +47,7 @@ public class ProfileController {
         }
     }
 
-    @GetMapping("/profileinfo")
+    @GetMapping
     public ResponseEntity<ProfileDTO> getPublicProfile(){
     ProfileDTO profileDTO = profileService.getPublicProfile(null);
     return ResponseEntity.ok(profileDTO);
