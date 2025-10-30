@@ -60,7 +60,12 @@ public class CategoryService {
         return Mapper.mapToCategoryDto(categoryEntity);
     }
 
-
+   public CategoryDto deleteCategory(Long categoryId) {
+        ProfileEntity profile = profileService.getCurrentProfile();
+        CategoryEntity categoryEntity = categoryRepository.findByIdAndProfileId(categoryId,profile.getId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST,"Category not found"));
+        categoryRepository.delete(categoryEntity);
+        return Mapper.mapToCategoryDto(categoryEntity);
+    }
 
 
 
